@@ -4,8 +4,29 @@ const quiz = [
 	{ name: "Batman", realName: "Bruce Wayne"}
 ];
 
+const view = {
+	score: document.querySelector('#score strong'),
+	question: document.getElementById('question'),
+	result: document.getElementById('result'),
+	info: document.getElementById('info'),
+	start: document.getElementById('start'),
+	render(target, content, attributes) {
+		for (const key in attributes) {
+			target.setAttribute(key, attributes[key]);
+		}
+		target.innerHTML = content;
+	},
+	show(element) {
+		element.style.display = 'block';
+	},
+	hide(element) {
+		element.style.display = 'none';
+	}
+};
+
 const game = {
 	start(quiz) {
+		view.hide(view.start);
 		this.questions = [...quiz];
 		this.score = 0;
 
@@ -35,7 +56,7 @@ const game = {
 			view.render(view.score, this.score);
 		}
 		else {
-			view.render(view.result, 'Wrong! The correct answer was ${answer}', {'class': 'wrong'});
+			view.render(view.result, `Wrong! The correct answer was ${answer}`, {'class': 'wrong'});
 			alert(`Wrong! The correct answer was ${answer}`);
 		}
 	},
@@ -43,21 +64,11 @@ const game = {
 	gameOver() {
 		view.render(view.info, `Game over, you scored ${this.score} point${this.score !== 1 ? 's' : ''}`);
 		alert(`Game over, you scored ${this.score} point${this.score !== 1 ? 's' : ''}`);
+		view.show(view.start);
 	}
 }
 
-const view = {
-	score: document.querySelector('#score strong'),
-	question: document.getElementById('question'),
-	result: document.getElementById('result'),
-	info: document.getElementById('info'),
-	render (target, content, attributes) {
-		for (const key in attributes) {
-			target.setAttribute(key, attributes[key]);
-		}
-		target.innerHTML = content;
-	}
-};
+view.start.addEventListener('click', () => game.start(quiz), false);
 
 // At the end of the game, report the player's score
 game.start(quiz);
