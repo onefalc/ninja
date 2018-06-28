@@ -4,19 +4,6 @@ const quiz = [
 	{ name: "Batman", realName: "Bruce Wayne"}
 ];
 
-const view = {
-	score: document.querySelector('#score strong'),
-	question: document.getElementById('question'),
-	result: document.getElementById('result'),
-	info: document.getElementById('info'),
-	render (target, content, attributes) {
-		for (const key in attributes) {
-			target.setAttribute(key, attributes[key]);
-		}
-		target.innerHTML = content;
-	}
-};
-
 const game = {
 	start(quiz) {
 		this.questions = [...quiz];
@@ -58,6 +45,19 @@ const game = {
 		alert(`Game over, you scored ${this.score} point${this.score !== 1 ? 's' : ''}`);
 	}
 }
+
+const view = {
+	score: document.querySelector('#score strong'),
+	question: document.getElementById('question'),
+	result: document.getElementById('result'),
+	info: document.getElementById('info'),
+	render (target, content, attributes) {
+		for (const key in attributes) {
+			target.setAttribute(key, attributes[key]);
+		}
+		target.innerHTML = content;
+	}
+};
 
 // At the end of the game, report the player's score
 game.start(quiz);
